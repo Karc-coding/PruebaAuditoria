@@ -1,0 +1,61 @@
+services:
+  postgres:
+    container_name: postgresaudit
+    image: postgres
+    environment:
+      POSTGRES_USER: rojas
+      POSTGRES_PASSWORD: 12345
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5430:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadminaudit
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5030:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+  eureka-server:
+    image: karcxcoding/audit-eureka-server:latest
+    container_name: audit-eureka-server
+    ports:
+      - "8075:8075"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+  auditoria:
+    image: karcxcoding/auditoria:latest
+    container_name: audit-prueba
+    ports:
+      - "8070:8070"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+      - eureka-server
+
+networks:
+  postgres:
+    driver: bridge
+  spring:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

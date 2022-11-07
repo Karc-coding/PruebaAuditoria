@@ -1,0 +1,42 @@
+server:
+  port: 8050
+spring:
+  application:
+    name: security
+  datasource:
+    password: 12345
+    url: jdbc:postgresql://postgresaudit:5432/security
+    username: rojas
+  jpa:
+    database : POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://audit-eureka-server:8075/eureka
+    fetch-registry: true
+    register-with-eureka: true
+
+jwt:
+  secret: secret
+
+admin-paths:
+  paths:
+    - uri: "/api/v1/product"
+      method: "POST"
+    - uri: "/api/v1/product"
+      method: "PUT"
+    - uri: "/api/v1/product/{1}[1-9]+[0-9]*"
+      method: "DELETE"
+    - uri: "/api/v1/author"
+      method: "POST"
+    - uri: "/api/v1/category"
+      method: "POST"

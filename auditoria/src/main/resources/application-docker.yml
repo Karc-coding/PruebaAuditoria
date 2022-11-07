@@ -1,0 +1,35 @@
+server:
+  port: 8070
+spring:
+  application:
+    name: auditoria
+  datasource:
+    password: 12345
+    url: jdbc:postgresql://postgresaudit:5432/auditoria
+    username: rojas
+  jpa:
+    database : POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+#  config:
+#    import: "optional:configserver:"
+#  cloud:
+#    config:
+#      import-check:
+#        enabled: false
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://audit-eureka-server:8075/eureka
+    fetch-registry: true
+    register-with-eureka: true

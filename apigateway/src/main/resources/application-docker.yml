@@ -1,0 +1,38 @@
+server:
+  port: 8074
+
+spring:
+  application:
+    name: apigateway
+  cloud:
+    gateway:
+      routes:
+        - id: auditoria
+          uri: lb://AUDITORIA
+          predicates:
+            - Path=/api/v1/product/**
+          filters:
+            - AutorizacionFilter
+        - id: auditoria
+          uri: lb://AUDITORIA
+          predicates:
+            - Path=/api/v1/author/**
+          filters:
+            - AutorizacionFilter
+        - id: auditoria
+          uri: lb://AUDITORIA
+          predicates:
+            - Path=/api/v1/category/**
+          filters:
+            - AutorizacionFilter
+        - id: security
+          uri: lb://SECURITY
+          predicates:
+            - Path=/api/v1/autenticacion/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://audit-eureka-server:8075/eureka
+    fetch-registry: true
+    register-with-eureka: true
