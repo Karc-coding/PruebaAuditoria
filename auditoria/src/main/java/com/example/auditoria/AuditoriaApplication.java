@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableEurekaClient
 @SpringBootApplication
+@EnableJpaAuditing
 public class AuditoriaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuditoriaApplication.class, args);

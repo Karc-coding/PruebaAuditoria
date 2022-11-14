@@ -36,9 +36,34 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring
+  apigateway:
+    image: karcxcoding/audit-apigateway:latest
+    container_name: audit-apigateway
+    ports:
+      - "8074:8074"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - eureka-server
+  security:
+    image: karcxcoding/audit-security:latest
+    container_name: audit-security
+    ports:
+      - "8050:8050"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - postgres
+    depends_on:
+      - postgres
+      - eureka-server
+      - apigateway
   auditoria:
-    image: karcxcoding/auditoria:latest
-    container_name: audit-prueba
+    image: karcxcoding/audit-auditoria:latest
+    container_name: audit-auditoria
     ports:
       - "8070:8070"
     environment:

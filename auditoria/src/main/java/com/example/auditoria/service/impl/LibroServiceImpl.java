@@ -42,6 +42,7 @@ public class LibroServiceImpl implements LibroService {
             return null;
 
         libro.setCreatedDate(book.getCreatedDate());
+        libro.setCreatedBy(book.getCreatedBy());
         return repo.save(libro);
     }
 
